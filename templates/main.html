@@ -1,0 +1,42 @@
+{% extends 'bootstrap3/bootstrap3.html' %}
+{% load bootstrap3 %}
+{% load staticfiles %}
+
+{% block bootstrap3_title %}
+    Hacker News Daily
+{% endblock %}
+
+{% block bootstrap3_content %}
+<div class="container">
+    <nav class="navbar navbar-default">
+      <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="#">
+                <img alt="Hacker News Daily" src="{% static 'img/logo.png' %}">
+            </a>
+            <a class="navbar-brand" href="#">Hacker News Daily</a>
+        </div>
+            <p class="navbar-text navbar-right"><em>Last update: {{timestamp}}</em></p>
+      </div>
+    </nav>
+    <ul class="list-group">
+        {% for item in items %}
+            <li class="list-group-item {% if not item.user_name %}list-group-item-danger{% endif %}">
+                {{ forloop.counter }}.
+                <a href="{{item.url}}">{{ item.title }}</a>
+                {% if item.user_name %}
+                    <span class="badge">{{item.points}} points</span>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <p>posted by <a href="http://news.ycombinator.com/user?id={{item.user_name}}">{{item.user_name}}</a></p>
+                        </div>
+                        <div class="col-md-6">
+                            <a href="{{item.comments_url}}"><span class="badge pull-right">{{item.comments}} comments</span></a>
+                        </div>
+                    </div>
+                {% endif %}
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock bootstrap3_content %}
